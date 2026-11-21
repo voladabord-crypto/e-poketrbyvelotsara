@@ -400,7 +400,7 @@ const FAQ=[
  ["Quelles cryptomonnaies sont disponibles ?","Actuellement : "+CR.join(', ')+". Vous pouvez les acheter et les vendre contre des MGA dans l'onglet Convertir."],
  ["Comment convertir mes MGA en USDT ?","Ouvrez l'onglet Convertir, choisissez MGA puis USDT, saisissez le montant et confirmez. Le cours appliqué est affiché avant la validation : il est différent à l'achat (MGA → crypto) et à la vente (crypto → MGA)."],
  ["Quel réseau choisir pour déposer ou retirer ?","Choisissez toujours le même réseau que la plateforme de l'autre côté (par exemple TRC20 pour un USDT envoyé depuis un compte TRON). Un mauvais réseau peut faire perdre définitivement les fonds : vérifiez avant de confirmer."],
- ["Qu'est-ce que le memo (ou tag) ?","Certaines cryptos (XRP, TON, XLM) utilisent une adresse commune et un memo / tag pour identifier votre compte. Au dépôt, copiez l'adresse ET le memo. Au retrait, saisissez le memo demandé par la plateforme de destination : sans memo correct, les fonds peuvent être perdus."],
+ ["Qu'est-ce que le memo (ou tag) ?","Certaines cryptos (XRP, TON, XLM) utilisent une adresse commune et un memo / tag pour identifier votre compte. Au dépôt, copiez l'adresse ET le memo. Au retrait, le memo est optionnel : saisissez-le si votre destinataire en demande un (plateforme d'échange par exemple), sinon laissez le champ vide."],
  ["Comment déposer une crypto ?","Touchez « Dépôt », choisissez la crypto puis le réseau : votre adresse personnelle s'affiche, copiez-la. Envoyez uniquement cette crypto, sur ce réseau. Ensuite, déclarez votre dépôt (adresse d'envoi, txid, montant) : l'équipe le vérifie puis crédite votre solde."],
  ["À quoi servent les frais ?","Deux sortes de frais. 1) La marge de conversion : la différence entre le prix d'achat et le prix de vente, qui rémunère la plateforme. 2) Les frais réseau lors d'un retrait crypto : ils couvrent les frais de la blockchain payés pour envoyer votre crypto. Ils sont affichés avant chaque confirmation."],
  ["Pourquoi choisir le type de destination au retrait ?","Une plateforme d'échange (Binance, OKX, Bybit…) exige presque toujours un memo / tag pour XRP, TON ou XLM, alors qu'un portefeuille personnel n'en demande pas. Le choix du type de destination applique les bonnes règles et évite de perdre vos fonds."],
@@ -415,8 +415,7 @@ function filterQ(){ui.qq=val('q_q');const q=ui.qq.toLowerCase();document.querySe
 
 /* ---------- vues ---------- */
 function headerBar(logged){const dark=document.documentElement.dataset.theme==='dark';
-  return `<div class="ribbon">BÊTA FERMÉE · accès limité</div>
-  <header><div>${logged?`<button class="ib" data-act="goTab" data-t="account" aria-label="Mon profil et paramètres">${ic('user',34)}${(isAdmin()&&S.admCnt&&S.admCnt.total)?`<span class="notif">${S.admCnt.total}</span>`:''}</button>`:''}</div>
+  return `<header><div>${logged?`<button class="ib" data-act="goTab" data-t="account" aria-label="Mon profil et paramètres">${ic('user',34)}${(isAdmin()&&S.admCnt&&S.admCnt.total)?`<span class="notif">${S.admCnt.total}</span>`:''}</button>`:''}</div>
   <div class="hr"><button class="ib" data-act="toggleTheme" aria-label="${dark?'Passer en mode clair':'Passer en mode sombre'}">${ic(dark?'sun':'moon',28)}</button></div></header>`}
 
 function authView(){const reg=ui.auth==='register';
@@ -772,10 +771,8 @@ function openCryOut(a,net,dest){if(!ASSETS[a].nets.length){openSheet(`<h3>Envoye
    <div class="note">Les frais réseau couvrent les frais de la blockchain payés lors de l'envoi de votre crypto.</div>
    ${kyc()?'':'<div class="warn">La vérification KYC est requise pour retirer des cryptos. Demandez-la depuis votre profil.</div>'}
    <label for="f_addr">Adresse du destinataire</label><input id="f_addr" autocomplete="off" value="${esc(keepAddr)}" placeholder="${N.ph}">
-   ${N.memo?`<label for="f_memo">${N.memo}${dest==='exchange'?' (obligatoire)':''}</label><input id="f_memo" autocomplete="off" placeholder="${N.memoPh}">
-   ${dest==='exchange'
-     ?`<div class="warn"><b>Les plateformes d'échange exigent un ${N.memo.toLowerCase()}.</b> Copiez-le depuis la page de dépôt de ${a} sur cette plateforme. Sans lui, vos fonds peuvent être perdus.</div>`
-     :`<label style="display:flex;gap:10px;align-items:flex-start;font-weight:500"><input id="f_nomemo" type="checkbox" style="width:22px;min-height:22px;margin-top:2px">Mon destinataire n'exige pas de ${N.memo.toLowerCase()}</label>`}`:''}
+   ${N.memo?`<label for="f_memo">${N.memo} (optionnel)</label><input id="f_memo" autocomplete="off" placeholder="${N.memoPh}">
+   <div class="note">Le ${N.memo.toLowerCase()} est facultatif. Saisissez-le seulement si votre destinataire en demande un ; sinon laissez ce champ vide.</div>`:''}
    ${dest==='exchange'&&!N.memo?'<div class="note">Vérifiez sur la plateforme de destination que le réseau choisi est bien activé pour le dépôt de '+a+'.</div>':''}
    <label for="f_amt">Quantité</label><input id="f_amt" inputmode="decimal">
    <div class="note">Un envoi de crypto est irréversible. L'adresse doit correspondre au réseau ${N.label}. Les retraits sont vérifiés par l'équipe avant l'envoi.</div>
@@ -951,12 +948,10 @@ const A = {
   sheetCryIn(d){openCryIn(d.a)},
   sheetCryOut(d){openCryOut(d.a)},
   doCryOut(d){const a=d.a,net=val('f_net'),addr=val('f_addr'),amount=num(val('f_amt')),N=NETS[net],dest=val('f_dest')||'other',dname=val('f_dname');
-    const memo=val('f_memo'),nm=document.getElementById('f_nomemo'),noMemo=!!(nm&&nm.checked);
+    const memo=val('f_memo'),nm=document.getElementById('f_nomemo'),noMemo=!memo;
     if(!N||!ASSETS[a].nets.some(n=>n[0]===net)) return toast('⚠ Réseau non pris en charge pour '+a+'.');
     if(!N.re.test(addr)) return toast('⚠ Adresse invalide pour le réseau '+N.label+'. Vérifiez le réseau et l\'adresse.');
     if(N.memo){
-      if(!memo&&dest==='exchange') return toast('⚠ Une plateforme d\'échange exige un '+N.memo.toLowerCase()+' pour '+a+'.');
-      if(!memo&&!noMemo) return toast('⚠ '+N.memo+' requis pour '+a+'. Si votre destinataire n\'en demande pas, cochez la case prévue.');
       if(memo&&!N.memoRe.test(memo)) return toast('⚠ '+N.memo+' invalide.')}
     if(amount<=0) return toast('⚠ Saisissez une quantité.');
     const minW=(NETINFO[a+'|'+net]||{}).min||0;if(amount<minW) return toast('⚠ Minimum de retrait : '+fmt(a,minW)+'.');
@@ -1143,7 +1138,7 @@ boot();
    À chaque déploiement, un petit fichier version.json change. L'application le consulte régulièrement :
    dès qu'une nouvelle version existe, elle se recharge toute seule quand l'utilisateur revient sur l'app,
    ou affiche le bandeau « Mettre à jour ». Aucun nouveau lien à envoyer : l'adresse du site ne change jamais. */
-const APP_BUILD='2026-11-08-2';
+const APP_BUILD='2026-11-21-1';
 if(location.protocol==='http:'||location.protocol==='https:'){
   let newer=false;
   const showUpd=()=>{const b=document.getElementById('upd');if(b)b.style.display='block'};
