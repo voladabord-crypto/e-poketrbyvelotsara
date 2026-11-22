@@ -139,27 +139,27 @@ textarea{min-height:90px;resize:vertical}
 #splash .aura{position:absolute;inset:-34%;border-radius:50%;background:conic-gradient(from 0deg,#00d4ff,#8a2be2,#ff2bd6,#ffb300,#37d84a,#00d4ff);filter:blur(46px);opacity:0;animation:spAura 1.6s .15s ease-out forwards,spSpin 7s linear infinite}
 #splash .ring{position:absolute;inset:0;border-radius:32%;border:2px solid rgba(160,140,255,.75);opacity:0;animation:spRing 2.4s ease-out infinite}
 #splash .ring.r2{animation-delay:.8s;border-color:rgba(0,212,255,.7)}
-#splash .logo{position:relative;width:100%;height:100%;border-radius:23%;overflow:hidden;opacity:0;transform:scale(.2) rotate(-14deg);animation:spPop 1s .1s cubic-bezier(.2,1.35,.35,1) forwards,spGlow 2.6s 1.2s ease-in-out infinite;box-shadow:0 0 38px rgba(138,43,226,.55),0 0 90px rgba(0,212,255,.3)}
+#splash .logo{position:relative;width:100%;height:100%;border-radius:23%;overflow:hidden;opacity:0;transform:scale(.2) rotate(-14deg);animation:spPop 1.3s .1s cubic-bezier(.2,1.35,.35,1) forwards,spGlow 2.6s 1.2s ease-in-out infinite;box-shadow:0 0 38px rgba(138,43,226,.55),0 0 90px rgba(0,212,255,.3)}
 #splash .logo img{display:block;width:100%;height:100%}
-#splash .logo::after{content:"";position:absolute;inset:-20% auto -20% -60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-18deg);animation:spShine 1.1s 1.15s ease-in-out forwards}
+#splash .logo::after{content:"";position:absolute;inset:-20% auto -20% -60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.85),transparent);transform:skewX(-18deg);animation:spShine 3.2s 1.4s ease-in-out infinite}
 #splash .spark{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 10px 3px rgba(150,130,255,.9);opacity:0;animation:spTwinkle 2.2s ease-in-out infinite}
 #splash .spark:nth-of-type(1){top:-8%;left:12%;animation-delay:.9s}#splash .spark:nth-of-type(2){top:10%;right:-10%;animation-delay:1.3s;background:#7ee8ff}
 #splash .spark:nth-of-type(3){bottom:-6%;left:2%;animation-delay:1.7s;background:#ffd36b}#splash .spark:nth-of-type(4){bottom:18%;right:-14%;animation-delay:1.1s}
 #splash .spark:nth-of-type(5){top:42%;left:-16%;animation-delay:1.9s;background:#7ee8ff}
-#splash h1{margin:34px 0 0;font-size:clamp(26px,8vw,36px);font-weight:800;letter-spacing:.05em;text-align:center;background:linear-gradient(90deg,#27d9ff,#9b5cff 50%,#ffb02e);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;animation:spTitle 1s 1.25s cubic-bezier(.2,.8,.2,1) forwards}
-#splash .sub{margin-top:8px;font-size:clamp(12px,3.6vw,15px);font-weight:600;letter-spacing:.34em;padding-left:.34em;color:#cfd3f5;text-align:center;opacity:0;animation:spSub 1s 1.8s ease-out forwards}
+#splash h1{margin:34px 0 0;font-size:clamp(26px,8vw,36px);font-weight:800;letter-spacing:.05em;text-align:center;background:linear-gradient(90deg,#27d9ff,#9b5cff 50%,#ffb02e);-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;animation:spTitle 1.5s 2.2s cubic-bezier(.2,.8,.2,1) forwards}
+#splash .sub{margin-top:8px;font-size:clamp(12px,3.6vw,15px);font-weight:600;letter-spacing:.34em;padding-left:.34em;color:#cfd3f5;text-align:center;opacity:0;animation:spSub 1.4s 3.5s ease-out forwards}
 #splash .tag{margin-top:26px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 10px;font-size:clamp(11px,3.3vw,13px);font-weight:700;letter-spacing:.2em}
-#splash .tag span{opacity:0;transform:translateY(8px);animation:spWord .6s ease-out forwards}
-#splash .tag span:nth-child(1){animation-delay:2.4s;color:#6fe3ff}#splash .tag span:nth-child(2){animation-delay:2.7s;color:#c9a6ff}#splash .tag span:nth-child(3){animation-delay:3s;color:#ffc65a}
+#splash .tag span{opacity:0;transform:translateY(8px);animation:spWord .9s ease-out forwards}
+#splash .tag span:nth-child(1){animation-delay:5.2s;color:#6fe3ff}#splash .tag span:nth-child(3){animation-delay:6.2s;color:#c9a6ff}#splash .tag span:nth-child(5){animation-delay:7.2s;color:#ffc65a}
 #splash .tag i{font-style:normal;opacity:0;color:#7b7f9e;animation:spWord .6s ease-out forwards}
-#splash .tag i:nth-child(2){animation-delay:2.55s}#splash .tag i:nth-child(4){animation-delay:2.85s}
+#splash .tag i:nth-child(2){animation-delay:5.7s}#splash .tag i:nth-child(4){animation-delay:6.7s}
 #splash .bar{position:absolute;left:18%;right:18%;bottom:calc(env(safe-area-inset-bottom) + 38px);height:3px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden}
-#splash .bar b{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#27d9ff,#9b5cff,#ffb02e);animation:spBar 3.6s .2s cubic-bezier(.3,.1,.3,1) forwards}
+#splash .bar b{display:block;height:100%;width:100%;transform:scaleX(0);transform-origin:left;background:linear-gradient(90deg,#27d9ff,#9b5cff,#ffb02e);animation:spBar 11.4s .2s linear forwards}
 @keyframes spPop{to{opacity:1;transform:scale(1) rotate(0)}}
 @keyframes spAura{to{opacity:.55}}@keyframes spSpin{to{transform:rotate(360deg)}}
 @keyframes spGlow{0%,100%{box-shadow:0 0 38px rgba(138,43,226,.55),0 0 90px rgba(0,212,255,.3)}50%{box-shadow:0 0 56px rgba(255,43,214,.6),0 0 120px rgba(255,179,0,.35)}}
 @keyframes spRing{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(1.75)}}
-@keyframes spShine{to{left:140%}}
+@keyframes spShine{0%{left:-60%}45%,100%{left:140%}}
 @keyframes spTwinkle{0%,100%{opacity:0;transform:scale(.4)}50%{opacity:1;transform:scale(1.2)}}
 @keyframes spTitle{from{opacity:0;transform:translateY(14px);letter-spacing:.3em}to{opacity:1;transform:none;letter-spacing:.05em}}
 @keyframes spSub{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
@@ -183,7 +183,7 @@ textarea{min-height:90px;resize:vertical}
  var seen=false;try{seen=sessionStorage.getItem('epb_splash')==='1';sessionStorage.setItem('epb_splash','1')}catch(e){}
  if(seen){sp.parentNode.removeChild(sp);return}
  var done=false;function hide(){if(done)return;done=true;sp.classList.add('out');setTimeout(function(){if(sp.parentNode)sp.parentNode.removeChild(sp)},700)}
- sp.addEventListener('click',hide);setTimeout(hide,3900)})();
+ sp.addEventListener('click',hide);setTimeout(hide,11900)})();
 </script>
 <div id="app"></div>
 <div id="sheetWrap"><div id="sheet" role="dialog" aria-modal="true"></div></div>
@@ -1352,7 +1352,7 @@ i18nStart();
    À chaque déploiement, un petit fichier version.json change. L'application le consulte régulièrement :
    dès qu'une nouvelle version existe, elle se recharge toute seule quand l'utilisateur revient sur l'app,
    ou affiche le bandeau « Mettre à jour ». Aucun nouveau lien à envoyer : l'adresse du site ne change jamais. */
-const APP_BUILD='2026-11-21-5';
+const APP_BUILD='2026-11-21-6';
 if(location.protocol==='http:'||location.protocol==='https:'){
   let newer=false;
   const showUpd=()=>{const b=document.getElementById('upd');if(b)b.style.display='block'};
