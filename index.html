@@ -185,6 +185,8 @@ textarea{min-height:90px;resize:vertical}
 .rcp .dash{color:var(--brand);font-weight:800;letter-spacing:.2em}
 .rcp .addr{display:block;font-size:12px}
 .opb{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:7px;font-size:13px;font-weight:800;flex:none}
+.chip{display:inline-block;padding:2px 10px;border-radius:99px;font-size:12px;font-weight:700}
+.chip.ok{background:rgba(46,189,133,.16);color:var(--up)}.chip.wait{background:rgba(245,185,58,.18);color:#F5B93A}.chip.bad{background:rgba(246,70,93,.16);color:var(--down)}
 </style>
 </head>
 <body>
@@ -292,6 +294,8 @@ I18N_ROWS.push(...[["Confirmer avec votre PIN","Hamafiso amin'ny PIN-nao","Confi
 I18N_ROWS.push(...[["Dépôt automatique","Fametrahana mandeha ho azy","Automatic deposit"],["Dès que le réseau a confirmé votre transfert (environ 1 à 3 minutes), votre solde est crédité automatiquement, sans aucune démarche. Vous pouvez envoyer depuis n'importe quel portefeuille ou plateforme.","Rehefa voamarin'ny réseau ny famindranao (eo amin'ny 1 ka hatramin'ny 3 minitra), dia miditra ho azy ao amin'ny solde-nao ny vola, tsy mila fanatanterahana na inona na inona. Azonao alefa avy amin'ny poketra na plateforme rehetra.","As soon as the network confirms your transfer (about 1 to 3 minutes), your balance is credited automatically, with no action needed. You can send from any wallet or platform."]]);
 I18N_ROWS.push(...[["Détails de retrait","Antsipirian'ny fakana vola","Withdrawal details"],["Détails de dépôt","Antsipirian'ny fametrahana","Deposit details"],["Détails de conversion","Antsipirian'ny fanakalozana","Conversion details"],["Détails de la transaction","Antsipirian'ny transaction","Transaction details"],["La transaction a été effectuée avec succès. Vous pouvez consulter votre compte Mobile Money afin d'accéder au reçu correspondant.","Vita soa aman-tsara ny transaction. Azonao jerena ao amin'ny kaonty Mobile Money-nao ny rosia mifanaraka amin'izany.","The transaction was completed successfully. You can check your Mobile Money account to access the corresponding receipt."],["La transaction a été effectuée avec succès.","Vita soa aman-tsara ny transaction.","The transaction was completed successfully."],["Votre demande est en cours de traitement par l'équipe E-POKETR'BY.","Eo am-pikarakarana ao amin'ny ekipan'ny E-POKETR'BY ny fangatahanao.","Your request is being processed by the E-POKETR'BY team."],["Cette demande a été refusée. Le montant a été remboursé sur votre solde.","Nolavina ity fangatahana ity. Naverina tamin'ny solde-nao ny vola.","This request was refused. The amount has been refunded to your balance."],["Votre dépôt est en attente de vérification par l'équipe E-POKETR'BY.","Miandry ny fanamarinan'ny ekipan'ny E-POKETR'BY ny fametrahanao.","Your deposit is awaiting verification by the E-POKETR'BY team."],["Votre dépôt est en attente de vérification par l'équipe E-POKETR'BY sur la blockchain.","Miandry ny fanamarinan'ny ekipan'ny E-POKETR'BY ao amin'ny blockchain ny fametrahanao.","Your deposit is awaiting verification by the E-POKETR'BY team on the blockchain."],["Votre dépôt a été crédité avec succès sur votre solde E-POKETR'BY.","Voampiditra soa aman-tsara ao amin'ny solde E-POKETR'BY-nao ny fametrahanao.","Your deposit was successfully credited to your E-POKETR'BY balance."],["Informations de retrait","Fampahalalana momba ny fakana vola","Withdrawal information"],["Informations de dépôt","Fampahalalana momba ny fametrahana","Deposit information"],["Informations de la transaction","Fampahalalana momba ny transaction","Transaction information"],["Numéro de retrait","Laharana fakana vola","Withdrawal number"],["Nom du numéro","Anaran'ny laharana","Name on the number"],["Type de retrait","Karazana fakana vola","Withdrawal type"],["Vers mon compte","Mankany amin'ny kaontiko","To my account"],["Note/Raison","Fanamarihana/Antony","Note/Reason"],["Total à retirer","Totalin'ny alaina","Total to withdraw"],["Frais E-POKETR'BY","Sarany E-POKETR'BY","E-POKETR'BY fees"],["Frais Mobile Money","Sarany Mobile Money","Mobile Money fees"],["Montant reçu","Vola voaray","Amount received"],["Montant payé","Vola naloa","Amount paid"],["Montant","Vola","Amount"],["Numéro d'envoi","Laharana nandefasana","Sending number"],["Type de dépôt","Karazana fametrahana","Deposit type"],["Depuis mon compte","Avy amin'ny kaontiko","From my account"],["Total déposé","Totalin'ny napetraka","Total deposited"],["Type","Karazana","Type"],["Envoyé depuis","Alefa avy amin'ny","Sent from"],["Demandé le","Nangatahana tamin'ny","Requested on"],["Déclaré le","Nambara tamin'ny","Declared on"],["Statut","Toe-javatra","Status"],["Frais réseau","Sarany réseau","Network fees"],["du montant retiré, déduits du montant reçu.","amin'ny vola alaina, ao anatin'ny vola voaray ny fanalana azy.","of the withdrawn amount, deducted from the amount received."],["Vous recevrez","Handraisanao","You will receive"]]);
 I18N_ROWS.push(...[["Solde disponible","Solde azo ampiasaina","Available balance"],["Seuil minimum","Fetra farany ambany","Minimum threshold"],["Seuil maximum","Fetra farany ambony","Maximum threshold"],["Commission E-POKETR'BY","Komisiona E-POKETR'BY","E-POKETR'BY commission"],["Frais opérateur (Mobile Money)","Sarany operatera (Mobile Money)","Operator fees (Mobile Money)"],["Montant net reçu","Vola net voaray","Net amount received"],["Plafond sans KYC :","Fetra raha tsy misy KYC :","Limit without KYC:"]]);
+I18N_ROWS.push(...[["Version","Version","Version"]]);
+I18N_ROWS.push(...[["Mes numéros Mobile Money","Ny laharana Mobile Money-ko","My Mobile Money numbers"],["Vérification par SMS","Fanamarinana amin'ny SMS","Verification by SMS"],["Ajouter un numéro","Hanampy laharana","Add a number"],["Ajouter et vérifier","Hanampy sy hamarina","Add and verify"],["Numéro Mobile Money requis","Mila laharana Mobile Money","Mobile Money number required"],["Pour déposer des MGA, ajoutez d'abord un numéro Mobile Money à votre nom. Il sera vérifié avant votre premier dépôt.","Raha hametraka MGA ianao dia ampidiro aloha ny laharana Mobile Money amin'ny anaranao. Hamarinina alohan'ny fametrahana voalohany izany.","To deposit MGA, first add a Mobile Money number in your name. It will be verified before your first deposit."],["Maximum 2 numéros par opérateur. Seul un numéro vérifié peut servir à déposer des MGA.","Laharana 2 raha be indrindra isaky ny operatera. Ny laharana voamarina ihany no azo ampiasaina hametrahana MGA.","Maximum 2 numbers per operator. Only a verified number can be used to deposit MGA."],["Aucun numéro pour le moment.","Mbola tsy misy laharana.","No number yet."],["Vérifié","Voamarina","Verified"],["En attente de vérification","Miandry fanamarinana","Awaiting verification"],["Expiré","Lany daty","Expired"],["Vous allez recevoir un SMS d'E-POKETR'BY sur ce numéro (dans les 24 h). Répondez à ce SMS avec ce code :","Hahazo SMS avy amin'ny E-POKETR'BY amin'io laharana io ianao (ao anatin'ny 24 ora). Valio io SMS io amin'ity kaody ity :","You will receive an SMS from E-POKETR'BY on this number (within 24 h). Reply to that SMS with this code:"],["Copier le code","Adikao ny kaody","Copy the code"],["Ne donnez ce code qu'en réponse à ce SMS.","Aza omena olona io kaody io afa-tsy amin'ny famaliana io SMS io.","Only give this code in reply to that SMS."],["Valable jusqu'au","Manan-kery hatramin'ny","Valid until"],["Supprimer","Fafana","Delete"],["Numéro Mobile Money","Laharana Mobile Money","Mobile Money number"],["Nom inscrit sur ce numéro","Anarana voasoratra amin'io laharana io","Name registered on this number"],["Le numéro doit être à votre nom. Nous lui enverrons un SMS pour vérifier que c'est bien vous (valable 24 h).","Tsy maintsy amin'ny anaranao ny laharana. Handefa SMS any aminy izahay hanamarina fa ianao tokoa (manan-kery 24 ora).","The number must be in your name. We will send it an SMS to check it is really you (valid 24 h)."],["Numéro ajouté","Nanampy laharana","Number added"],["Vérification en cours pour","Eo am-panamarinana ny","Verification in progress for"],["Le nom saisi diffère du nom de votre compte : l'équipe devra le vérifier manuellement.","Tsy mitovy amin'ny anaran'ny kaontinao ny anarana nosoratana: hojerena tanana ny ekipa izany.","The name entered differs from your account name: the team will have to verify it manually."],["Mes numéros","Ny laharanako","My numbers"],["Gérer mes numéros","Hitantana ny laharanako","Manage my numbers"],["Étape 1 · Numéro Mobile Money qui envoie","Dingana 1 · Laharana Mobile Money mandefa","Step 1 · Sending Mobile Money number"],["Étape 2 · Montant (MGA)","Dingana 2 · Vola (MGA)","Step 2 · Amount (MGA)"],["⚠ Numéro invalide pour cet opérateur.","⚠ Tsy mety ny laharana ho an'ity operatera ity.","⚠ Invalid number for this operator."],["Numéro supprimé.","Voafafa ny laharana.","Number deleted."],["Opérateur","Operatera","Operator"]]);
 const I18N = (()=>{ if(LANG==='fr') return null;
   const ix=LANG==='mg'?1:2, ex=new Map(), frag=[];
   I18N_ROWS.forEach(r=>{const k=r[0].trim();ex.set(k,r[ix]);if(k.length>=5)frag.push([k,r[ix]])});
@@ -690,6 +694,7 @@ function accountView(){const m=S.me;
    ${kyc()?'':'<button class="p full" data-act="askKyc">Demander la vérification KYC</button><div class="note">Vous serez guidé par l\'équipe (pièce d\'identité + selfie) via WhatsApp.</div>'}
    <h2>Paramètres</h2>
    <button class="menu" data-act="sheetLang">${ic('globe',24)}<span>Langue<br><span class="muted">${LANGS[LANG]}</span></span></button>
+   <button class="menu" data-act="sheetNums">${ic('shield',24)}<span>Mes numéros Mobile Money<br><span class="muted">Vérification par SMS</span></span></button>
    <button class="menu" data-act="sheetPinChange">${ic('shield',24)}<span>Changer mon PIN<br><span class="muted">Code à 6 chiffres</span></span></button>
    <button class="menu" data-act="sheetPush">${ic('bell',24)}<span>Notifications<br><span class="muted">${pushLabel()}</span></span></button>
    <button class="menu" data-act="sheetInvite">${ic('invite',24)}<span>Parrainage<br><span class="muted">Code : ${esc(m.referral_code||'')}</span></span></button>
@@ -699,10 +704,11 @@ function accountView(){const m=S.me;
    ${isAdmin()?`<button class="menu" data-act="goTab" data-t="admin">${ic('shield',24)}<span>Administration${(S.admCnt&&S.admCnt.total)?` <span class="notif" style="position:static;display:inline-flex">${S.admCnt.total}</span>`:''}<br><span class="muted">Demandes, annonces, réseaux, cours, clients</span></span></button>`:''}
    <h2>Affichage</h2><div class="seg"><button class="${THEME==='light'?'on':''}" data-act="theme" data-m="light">Clair</button><button class="${THEME==='dark'?'on':''}" data-act="theme" data-m="dark">Sombre</button><button class="${THEME==='auto'?'on':''}" data-act="theme" data-m="auto">Auto</button></div>
    ${historyBlock()}
-   <button class="s full" style="margin-top:14px" data-act="logout">Se déconnecter</button>`}
+   <button class="s full" style="margin-top:14px" data-act="logout">Se déconnecter</button>
+   <div class="muted" style="text-align:center;margin:16px 0 4px;font-size:12px">Version ${APP_BUILD}</div>`}
 
 /* ---------- administration ---------- */
-const ADM=[['dep','Dépôts MGA'],['dcr','Dépôts crypto'],['wd','Retraits'],['ann','Annonces'],['set','Réglages'],['net','Réseaux & frais'],['px','Cours MGA ↔ crypto'],['bil','Bilan'],['cli','Clients'],['cry','Crédit manuel'],['aut','Dépôts auto']];
+const ADM=[['dep','Dépôts MGA'],['dcr','Dépôts crypto'],['wd','Retraits'],['ann','Annonces'],['set','Réglages'],['net','Réseaux & frais'],['px','Cours MGA ↔ crypto'],['bil','Bilan'],['cli','Clients'],['cry','Crédit manuel'],['aut','Dépôts auto'],['num','Numéros']];
 const EXPL={POLYGON:'https://polygonscan.com/tx/',ARB:'https://arbiscan.io/tx/',OP:'https://optimistic.etherscan.io/tx/',BASE:'https://basescan.org/tx/',AVAXC:'https://snowtrace.io/tx/',TRC20:'https://tronscan.org/#/transaction/',BEP20:'https://bscscan.com/tx/',ERC20:'https://etherscan.io/tx/',BTC:'https://mempool.space/tx/',LTC:'https://litecoinspace.org/tx/',SOL:'https://solscan.io/tx/',DOGE:'https://dogechain.info/tx/',XRP:'https://xrpscan.com/tx/',TON:'https://tonviewer.com/transaction/',XLM:'https://stellar.expert/explorer/public/tx/'};
 const expLink=(net,txid)=>EXPL[net]?`<a class="lnk s sm" style="margin-top:8px" target="_blank" rel="noopener" href="${EXPL[net]}${encodeURIComponent(txid)}">Voir la transaction sur l'explorateur</a>`:'';
 const DEST={exchange:"Plateforme d'échange",wallet:'Portefeuille personnel',other:'Autre'};
@@ -716,6 +722,7 @@ async function admLoad(sec){ui.adm.sec=sec;ui.adm.err='';ui.adm.rows=[];ui.adm.u
         const us=await sel('profiles?select=id,name,phone,kyc_level,memo_id&id=in.('+ids.join(',')+')');(us||[]).forEach(u=>ui.adm.users[u.id]=u);
         if(sec==='dcr'){const ad=await sel('deposit_addresses?select=user_id,network,address&user_id=in.('+ids.join(',')+')');(ad||[]).forEach(x=>ui.adm.addr[x.user_id+'|'+x.network]=x.address)}}
     }else if(sec==='aut'){const r=await rpc('admin_auto_overview',{});ui.adm.rows=(r&&r.rows)||[];ui.adm.modes=(r&&r.modes)||[]}
+    else if(sec==='num'){ui.adm.rows=(await rpc('admin_mga_numbers',{}))||[]}
     else if(sec==='cli'){ui.adm.rows=await sel('profiles?select=id,name,phone,kyc_level,role,memo_id,created_at&order=created_at.desc&limit=100')||[]}
     else if(sec==='ann'){ui.adm.rows=await sel('announcements?select=*&order=created_at.desc&limit=30')||[]}
     else if(sec==='set'){
@@ -729,6 +736,14 @@ function admView(){
   const netOpts=list=>list.map(n=>`<option value="${n}">${NETS[n].label}</option>`).join('');
   let body='';
   if(a.err) body+=`<div class="warn">${esc(a.err)}<br><span class="muted">Si l'erreur parle d'une table ou d'une fonction introuvable, installez d'abord la partie 7 du SQL.</span></div>`;
+  if(a.sec==='num') body+=(a.rows.length?a.rows.map(r=>{const SL={pending:'En attente',verified:'Vérifié',expired:'Expiré',rejected:'Refusé'},open=r.status==='pending'||r.status==='expired',
+     sms=`Salama tompoko ! Izahay aty @ E-POKETR'BY ihany. Tena anao marina ve ny tompon'ny laharana ${r.number} izay mitondra ny anarana ${r.holder} ? Raha tena ianao dia miangavy anao hamaly ity SMS ity amin'ny kaody manokana nomena anao tao amin'ny application E-POKETR'BY.`;
+     return `<div class="card"><div class="row"><b>${esc(r.client||'Client')} · ${esc(r.phone||'')}</b><b>${SL[r.status]||esc(r.status)}</b></div>
+     <div class="muted">${esc(r.operator)} · <b>${esc(r.number)}</b> · nom saisi : <b>${esc(r.holder)}</b></div>
+     ${r.name_match?'':'<div class="warn">⚠ Le nom saisi ne correspond pas au nom du compte.</div>'}
+     ${r.code?`<div class="muted">Code attendu en réponse : <b class="num">${esc(r.code)}</b> · expire ${esc(fdate(r.expires_at))}</div>`:''}
+     ${open?`<div class="grid2" style="margin-top:10px"><a class="lnk s" href="sms:${esc(r.number)}?body=${encodeURIComponent(sms)}">Envoyer le SMS</a><button class="s sm" data-act="copyText" data-t="${esc(r.code||'')}">Copier le code</button></div>
+     <div class="grid2" style="margin-top:8px"><button class="p sm" data-act="admNumOk" data-id="${r.id}">Valider</button><button class="d sm" data-act="admNumNo" data-id="${r.id}">Refuser</button></div>`:''}</div>`}).join(''):'<div class="card muted">Aucun numéro à vérifier.</div>');
   if(a.sec==='dep') body+=(a.rows.length?a.rows.map(r=>`<div class="card"><div class="row"><b>${u(r.user_id)}</b><b class="num">${fmt('MGA',Number(r.amount))}</b></div>
      <div class="muted">${esc(r.operator)} · de ${esc(r.sender_number)} · réf <b>${esc(r.reference)}</b></div><div class="muted">${esc(fdate(r.created_at))}</div>
      <div class="grid2" style="margin-top:10px"><button class="p sm" data-act="admConfirmDep" data-id="${r.id}">Confirmer reçu</button><button class="d sm" data-act="admRejectDep" data-id="${r.id}">Refuser</button></div></div>`).join(''):'<div class="card muted">Aucun dépôt MGA en attente.</div>');
@@ -1055,9 +1070,12 @@ const A = {
     if(sw){const v=sw.from_asset==='MGA'?Number(sw.from_amount):Number(sw.from_amount)*Number(sw.price_mga);
       rows.push(['Montant payé',fmt(sw.from_asset,Number(sw.from_amount))],['Montant reçu',fmt(sw.to_asset,Number(sw.to_amount)),'tot'],['Cours appliqué',fmt('MGA',Number(sw.price_mga))],['Frais E-POKETR\'BY',fmt('MGA',v*Number(sw.fee_rate||0))])}
     else rows.push(['Montant',(amt>=0?'+':'')+fmt(l.asset,amt),'tot']);
-    rows.push(['Note/Raison',l.note?esc(l.note):dash],['Date',esc(fdate(l.created_at))],['Référence',`<span class="num">${esc(refTx(l.id))}</span>`]);
+    const nt=String(l.note||''),tx=(nt.match(/\b(?:0x)?[0-9a-fA-F]{64}\b/)||[])[0],nw=Object.keys(NETS).find(k=>new RegExp('\\b'+k+'\\b','i').test(nt));
+    if(nw)rows.push(['Réseau',esc(NETS[nw].label)]);
+    rows.push(['Note/Raison',nt?esc(nt):dash],['Date',esc(fdate(l.created_at))],['Référence',`<span class="num">${esc(refTx(l.id))}</span>`]);
+    if(tx)rows.push(['Identifiant de transaction (txid)',`<span class="addr">${esc(tx)}</span>`,'blk']);
     openSheet(rcp({title:'Détails de '+kind,amt:(amt>=0?'+ ':'− ')+fmt(l.asset,Math.abs(amt)),st:k,stTxt:pending?'En cours':'Terminé',
-      msg:pending?'Votre demande est en cours de traitement par l\'équipe E-POKETR\'BY.':'La transaction a été effectuée avec succès.',head:'Informations de la transaction',rows}))},
+      msg:pending?'Votre demande est en cours de traitement par l\'équipe E-POKETR\'BY.':'La transaction a été effectuée avec succès.',head:'Informations de la transaction',rows})+((tx&&nw)?expLink(nw,tx):''))},
   sheetAssetHistory(d){const h=histItems(d.a);
     openSheet(`<div class="who">${logo(d.a,36)}<h3 style="margin:0">Historique ${d.a}</h3></div>
      <div class="card" style="margin-top:12px">${h.length?histRows(h):'<div class="muted">Aucune transaction.</div>'}</div>`)},
@@ -1115,14 +1133,44 @@ const A = {
      <div class="grid2" style="margin-top:14px"><button class="p" data-act="swapTo" data-a="${a}">Acheter</button><button class="s" data-act="swapFrom" data-a="${a}">Vendre</button>
      <button class="s" data-act="sheetCryIn" data-a="${a}">Recevoir</button><button class="s" data-act="sheetCryOut" data-a="${a}">Envoyer</button></div>
      <button class="s full" style="margin-top:10px" data-act="sheetAssetHistory" data-a="${a}">Historique ${a}</button>`)},
-  sheetDepMGA(){openSheet(`<h3>Déposer des MGA</h3>
-    <label for="f_op">Étape 1 · Choisissez l'opérateur avec lequel vous payez</label>
-    <select id="f_op" onchange="depOpChange()">${OPS.map(o=>`<option>${o}</option>`).join('')}</select>
+  async sheetDepMGA(){
+    try{await loadNums()}catch(e){return toast('⚠ Service de vérification indisponible. '+friendlyErr(e))}
+    const ok=S.nums.filter(n=>n.status==='verified');
+    if(!ok.length) return A.sheetNums({gate:1});
+    openSheet(`<h3>Déposer des MGA</h3>
+    <label for="f_nm">Étape 1 · Numéro Mobile Money qui envoie</label>
+    <select id="f_nm" onchange="depNumChange()">${ok.map(n=>`<option value="${n.id}" data-op="${esc(n.operator)}" data-num="${esc(n.number)}">${esc(n.operator)} · ${esc(fmtTel(n.number))} · ${esc(n.holder_name)}</option>`).join('')}</select>
+    <input type="hidden" id="f_op"><input type="hidden" id="f_num">
     <div id="dep_target"></div>
-    <label for="f_num">Étape 2 · Numéro qui envoie (à votre nom)</label><input id="f_num" inputmode="numeric" maxlength="10" placeholder="03XXXXXXXX">
-    <label for="f_amt">Montant (MGA)</label><input id="f_amt" inputmode="numeric" placeholder="50000">
+    <label for="f_amt">Étape 2 · Montant (MGA)</label><input id="f_amt" inputmode="numeric" placeholder="50000">
     <div class="note">Minimum ${fmt('MGA',MIN_MGA)}. Vous recevrez une référence à indiquer dans le motif du paiement. L'équipe vérifie que le paiement vient bien de ce numéro avant de créditer votre solde.</div>
-    <button class="p full" id="dep_btn" style="margin-top:16px" data-act="doDepMGA">Continuer</button>`);depOpChange()},
+    <button class="p full" id="dep_btn" style="margin-top:16px" data-act="doDepMGA">Continuer</button>
+    <button class="s full sm" style="margin-top:10px" data-act="sheetNums">Gérer mes numéros</button>`);depNumChange()},
+  async sheetNums(d){
+    try{await loadNums()}catch(e){return toast('⚠ '+friendlyErr(e))}
+    const l=S.nums,gate=d&&d.gate;
+    openSheet(`<h3>${gate?'Numéro Mobile Money requis':'Mes numéros Mobile Money'}</h3>
+    <div class="muted">${gate?'Pour déposer des MGA, ajoutez d\'abord un numéro Mobile Money à votre nom. Il sera vérifié avant votre premier dépôt.':'Maximum 2 numéros par opérateur. Seul un numéro vérifié peut servir à déposer des MGA.'}</div>
+    ${l.length?l.map(numCard).join(''):'<div class="muted" style="margin-top:12px">Aucun numéro pour le moment.</div>'}
+    <button class="p full" style="margin-top:16px" data-act="sheetNumAdd">Ajouter un numéro</button>`)},
+  sheetNumAdd(){openSheet(`<h3>Ajouter un numéro</h3>
+    <label for="nm_op">Opérateur</label><select id="nm_op">${OPS.map(o=>`<option>${o}</option>`).join('')}</select>
+    <label for="nm_num">Numéro Mobile Money</label><input id="nm_num" inputmode="numeric" maxlength="10" placeholder="03XXXXXXXX" autocomplete="off">
+    <label for="nm_name">Nom inscrit sur ce numéro</label><input id="nm_name" maxlength="60" autocomplete="off" placeholder="Prénom Nom">
+    <div class="note">Le numéro doit être à votre nom. Nous lui enverrons un SMS pour vérifier que c'est bien vous (valable 24 h).</div>
+    <button class="p full" style="margin-top:16px" data-act="doNumAdd">Ajouter et vérifier</button>`)},
+  async doNumAdd(){const op=val('nm_op'),number=val('nm_num'),name=val('nm_name');
+    if(!/^03\d{8}$/.test(number)||!numOpOk(op,number)) return toast('⚠ Numéro invalide pour cet opérateur.');
+    if(!/^[A-Za-zÀ-ÿ' .-]{3,60}$/.test(name)) return toast('⚠ Nom invalide : lettres uniquement (3 à 60 caractères).');
+    let r=null;const ok=await run(async()=>{r=await rpc('add_mga_number',{p_operator:op,p_number:number,p_holder:name})},null);
+    if(ok&&r){openSheet(`<h3>Numéro ajouté</h3><div class="muted">Vérification en cours pour <b>${esc(op)} · ${esc(fmtTel(number))}</b>.</div>
+      ${codeBox({code:r.code,expires_at:r.expires_at})}
+      ${r.name_match===false?'<div class="warn">Le nom saisi diffère du nom de votre compte : l\'équipe devra le vérifier manuellement.</div>':''}
+      <button class="p full" style="margin-top:14px" data-act="sheetNums">Mes numéros</button>`)}},
+  async numDel(d){if(!confirm('Supprimer ce numéro ?'))return;
+    const ok=await run(()=>rpc('delete_mga_number',{p_id:Number(d.id)}),'Numéro supprimé.');if(ok)A.sheetNums({})},
+  admNumOk(d){run(()=>rpc('admin_verify_mga_number',{p_id:Number(d.id),p_ok:true}),'Numéro validé.',()=>admLoad('num'))},
+  admNumNo(d){if(!confirm('Refuser ce numéro ?'))return;run(()=>rpc('admin_verify_mga_number',{p_id:Number(d.id),p_ok:false}),'Numéro refusé.',()=>admLoad('num'))},
   async doDepMGA(){const op=val('f_op'),number=val('f_num'),amount=num(val('f_amt')),to=S.pay[op];
     if(!OPS.includes(op)) return toast('⚠ Choisissez un opérateur.');
     if(!to) return toast('⚠ Le numéro de réception '+op+' n\'est pas encore disponible.');
@@ -1397,14 +1445,32 @@ function mgaCalc(){const a=num(val('f_amt'))||0,f=a>0?mgaFeeOf(a):0,e=document.g
   if(e)e.textContent=fmt('MGA',f);if(n)n.textContent=fmt('MGA',Math.max(0,a-f))}
 function txMatch(l){const m=/^(Dépôt|Retrait)/.exec(l.type||'');if(!m)return null;
   const amt=Math.abs(Number(l.amount)),t=new Date(l.created_at).getTime(),tol=1e-9*Math.max(1,amt);
-  const best=(arr,tf,ok)=>{let b=null,bd=Infinity;for(const x of arr||[]){if(!ok(x))continue;const dd=Math.abs(tf(x)-t);if(dd<bd){bd=dd;b=x}}return b&&bd<2592e5?b:null};
+  const eq=v=>Math.abs(Number(v)-amt)<=tol;
+  const pick=(arr,tf,ok,eqf)=>{let b=null,bs=Infinity;for(const x of arr||[]){if(!ok(x))continue;const dd=Math.abs(tf(x)-t),e=eqf(x);
+      if(!((e&&dd<2592e5)||dd<6e5))continue;const sc=dd-(e?1e9:0);if(sc<bs){bs=sc;b=x}}return b};
+  const done=y=>y.status!=='pending'&&y.status!=='rejected'&&y.status!=='failed';
   const ts=y=>new Date(y.decided_at||y.created_at).getTime();
   if(m[1]==='Dépôt'){
-    if(l.asset==='MGA'){const x=best(S.pdep,ts,y=>y.status==='confirmed'&&Math.abs(Number(y.amount)-amt)<tol);return x&&{k:'sheetDepReq',id:x.id}}
-    const c=best(S.claims,ts,y=>y.asset===l.asset&&y.status==='confirmed'&&Math.abs(Number(y.amount)-amt)<tol);return c&&{k:'sheetClaim',id:c.id}}
+    if(l.asset==='MGA'){const x=pick(S.pdep,ts,done,y=>eq(y.amount));return x&&{k:'sheetDepReq',id:x.id}}
+    const c=pick(S.claims,ts,y=>y.asset===l.asset&&done(y),y=>eq(y.amount));return c&&{k:'sheetClaim',id:c.id}}
   const rej=/annul/i.test(l.type||'');
-  const w=best(S.pwd,y=>new Date(y.created_at).getTime(),y=>y.asset===l.asset&&(rej?y.status==='rejected':y.status!=='rejected')&&(Math.abs(Number(y.amount)-amt)<tol||Math.abs(Number(y.amount)+Number(y.fee||0)-amt)<tol));
+  const w=pick(S.pwd,y=>new Date(y.created_at).getTime(),y=>y.asset===l.asset&&(rej?y.status==='rejected':y.status!=='rejected'),y=>eq(y.amount)||eq(Number(y.amount)+Number(y.fee||0)));
   return w&&{k:'sheetWd',id:w.id}}
+
+/* ---------- numéros Mobile Money vérifiés ---------- */
+S.nums=S.nums||[];
+async function loadNums(){const r=await rpc('my_mga_numbers',{});S.nums=Array.isArray(r)?r:[]}
+function numOpOk(op,n){const p=String(n).slice(0,3);return op==='MVola'?(p==='034'||p==='038'):op==='Orange Money'?(p==='032'||p==='037'):op==='Airtel Money'?p==='033':false}
+const numChip=n=>n.status==='verified'?'<span class="chip ok">Vérifié</span>':n.status==='pending'?'<span class="chip wait">En attente de vérification</span>':n.status==='expired'?'<span class="chip bad">Expiré</span>':'<span class="chip bad">Refusé</span>';
+function codeBox(n){return `<div class="warn" style="margin-top:10px"><div>Vous allez recevoir un SMS d'E-POKETR'BY sur ce numéro (dans les 24 h). Répondez à ce SMS avec ce code :</div>
+  <div class="row" style="margin-top:8px"><b class="num" style="font-size:22px;letter-spacing:.06em">${esc(n.code)}</b><button class="s sm" data-act="copyText" data-t="${esc(n.code)}">Copier le code</button></div>
+  <div class="muted" style="margin-top:6px">Valable jusqu'au ${esc(fdate(n.expires_at))}. Ne donnez ce code qu'en réponse à ce SMS.</div></div>`}
+function numCard(n){return `<div class="card" style="margin-top:10px"><div class="row"><b class="who">${opBadge(n.operator)}</b>${numChip(n)}</div>
+  <div class="big num" style="font-size:20px;margin-top:6px">${esc(fmtTel(n.number))}</div><div class="muted">${esc(n.holder_name)}</div>
+  ${n.status==='pending'&&n.code?codeBox(n):''}
+  <button class="s sm" style="margin-top:10px" data-act="numDel" data-id="${n.id}">Supprimer</button></div>`}
+function depNumChange(){const o=document.getElementById('f_nm'),op=document.getElementById('f_op'),nu=document.getElementById('f_num');if(!o||!op||!nu)return;
+  const x=o.options[o.selectedIndex];op.value=x?x.dataset.op:'';nu.value=x?x.dataset.num:'';depOpChange()}
 
 /* ---------- code PIN : confirmation des paiements ---------- */
 function pinWeak(p){return /^(\d)\1{5}$/.test(p)||['123456','234567','345678','456789','654321','987654','012345','123123','112233'].includes(p)}
@@ -1457,7 +1523,7 @@ i18nStart();
    À chaque déploiement, un petit fichier version.json change. L'application le consulte régulièrement :
    dès qu'une nouvelle version existe, elle se recharge toute seule quand l'utilisateur revient sur l'app,
    ou affiche le bandeau « Mettre à jour ». Aucun nouveau lien à envoyer : l'adresse du site ne change jamais. */
-const APP_BUILD='2026-11-24-1';
+const APP_BUILD='2026-11-24-3';
 if(location.protocol==='http:'||location.protocol==='https:'){
   let newer=false;
   const showUpd=()=>{const b=document.getElementById('upd');if(b)b.style.display='block'};
