@@ -773,6 +773,7 @@ function admView(){
        <div class="addr">${esc(r.address)}</div>${r.memo?`<div class="muted">Memo/tag : <b>${esc(r.memo)}</b></div>`:''}`}
      <div class="muted">${esc(fdate(r.created_at))}</div>
      <div class="grid2" style="margin-top:8px">${r.asset==='MGA'?`<button class="s sm" data-act="copyText" data-t="${esc(r.mobile_number)}">Copier numéro</button><button class="s sm" data-act="copyText" data-t="${Math.max(0,Number(r.amount)-Number(r.fee||0))}">Copier montant</button>`:`<button class="s sm" data-act="copyText" data-t="${esc(r.address)}">Copier adresse</button><button class="s sm" data-act="copyText" data-t="${Number(r.amount)}">Copier montant</button>${r.memo?`<button class="s sm" data-act="copyText" data-t="${esc(r.memo)}">Copier memo</button>`:''}`}</div>
+     ${r.asset==='MGA'?ussdBlock(r):''}
      <div class="grid2" style="margin-top:10px"><button class="p sm" data-act="admDoneWd" data-id="${r.id}" data-a="${r.asset}">Marquer envoyé</button><button class="d sm" data-act="admRejectWd" data-id="${r.id}">Refuser (rembourser)</button></div></div>`).join(''):'<div class="card muted">Aucun retrait en attente.</div>');
   if(a.sec==='ann') body+=`<div class="card"><b>Nouvelle annonce</b><div class="note">Elle s'affiche en haut de l'écran d'accueil de tous les clients, dans la couleur choisie, et part aussi en notification sur le téléphone des clients qui les ont activées.</div>
      <label for="an_title">Titre (facultatif)</label><input id="an_title" maxlength="80" autocomplete="off">
@@ -1472,6 +1473,17 @@ function numCard(n){return `<div class="card" style="margin-top:10px"><div class
 function depNumChange(){const o=document.getElementById('f_nm'),op=document.getElementById('f_op'),nu=document.getElementById('f_num');if(!o||!op||!nu)return;
   const x=o.options[o.selectedIndex];op.value=x?x.dataset.op:'';nu.value=x?x.dataset.num:'';depOpChange()}
 
+/* ---------- code USSD MVola (admin, retraits MGA) ---------- */
+function ussdBlock(r){
+  const net=Math.max(0,Number(r.amount)-Number(r.fee||0)),num=String(r.mobile_number||'').replace(/\D/g,'');
+  if(r.operator!=='MVola') return `<div class="muted" style="margin-top:8px">USSD automatique : bientôt disponible pour ${esc(r.operator)}.</div>`;
+  if(!/^03\d{8}$/.test(num)||!(net>0)) return '<div class="warn" style="margin-top:8px">Numéro ou montant invalide : USSD non disponible.</div>';
+  const code='#111*1*2*'+num+'*'+net+'*2*';
+  return `<div class="card" style="margin-top:8px"><a class="lnk p" href="tel:${encodeURIComponent(code)}">Lancer le code USSD MVola</a>
+   <div class="muted" style="margin-top:8px;word-break:break-all">Code : <b class="num">${esc(code)}</b></div>
+   <div class="muted">Montant net envoyé : <b>${fmt('MGA',net)}</b> → ${esc(num)}. Tapez votre code secret MVola puis # pour confirmer.</div>
+   <button class="s sm" style="margin-top:8px" data-act="copyText" data-t="${esc(code)}">Copier le code</button></div>`}
+
 /* ---------- code PIN : confirmation des paiements ---------- */
 function pinWeak(p){return /^(\d)\1{5}$/.test(p)||['123456','234567','345678','456789','654321','987654','012345','123123','112233'].includes(p)}
 function askPin(sum,onOk){ui.pinOk=onOk;
@@ -1523,7 +1535,7 @@ i18nStart();
    À chaque déploiement, un petit fichier version.json change. L'application le consulte régulièrement :
    dès qu'une nouvelle version existe, elle se recharge toute seule quand l'utilisateur revient sur l'app,
    ou affiche le bandeau « Mettre à jour ». Aucun nouveau lien à envoyer : l'adresse du site ne change jamais. */
-const APP_BUILD='2026-11-24-3';
+const APP_BUILD='2026-11-24-4';
 if(location.protocol==='http:'||location.protocol==='https:'){
   let newer=false;
   const showUpd=()=>{const b=document.getElementById('upd');if(b)b.style.display='block'};
