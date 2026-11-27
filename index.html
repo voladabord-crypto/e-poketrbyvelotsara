@@ -201,7 +201,8 @@ textarea{min-height:90px;resize:vertical}
 </div>
 <script>
 (function(){var sp=document.getElementById('splash');if(!sp)return;
- var seen=false;try{seen=sessionStorage.getItem('epb_splash')==='1';sessionStorage.setItem('epb_splash','1')}catch(e){}
+ var seen=false;try{seen=sessionStorage.getItem('epb_splash')==='1';sessionStorage.setItem('epb_splash','1');
+  if(Date.now()-(+localStorage.getItem('epoketrby_last')||0)<900000)seen=true}catch(e){}
  if(seen){sp.parentNode.removeChild(sp);return}
  var done=false;function hide(){if(done)return;done=true;sp.classList.add('out');setTimeout(function(){if(sp.parentNode)sp.parentNode.removeChild(sp)},700)}
  sp.addEventListener('click',hide);setTimeout(hide,11900)})();
@@ -420,7 +421,7 @@ async function login(phone,pin){
   setSessFrom(j)}
 async function doLogout(silent){
   try{if(SESS&&!silent){try{await pushUnbind()}catch(e){}}if(SESS&&!silent)await raw(SB_URL+'/auth/v1/logout',{method:'POST',headers:{apikey:SB_KEY,Authorization:'Bearer '+SESS.access}})}catch(e){}
-  S.admCnt=null;document.title="E-POKETR'BY";saveSess(null);S={me:null,bal:{},ledger:[],assets:S.assets,fee:S.fee,pdep:[],pwd:[],swaps:[],cg:S.cg,usdMga:S.usdMga,loaded:false,pay:S.pay,claims:[],ann:[],rates:S.rates,ratesOk:S.ratesOk,set:{},gm:S.gm};
+  S.admCnt=null;LS.del(UKEY);document.title="E-POKETR'BY";saveSess(null);S={me:null,bal:{},ledger:[],assets:S.assets,fee:S.fee,pdep:[],pwd:[],swaps:[],cg:S.cg,usdMga:S.usdMga,loaded:false,pay:S.pay,claims:[],ann:[],rates:S.rates,ratesOk:S.ratesOk,set:{},gm:S.gm};
   ui.tab='home';ui.openAsset=null;closeSheet();render()}
 
 /* ---------- chargement des données ---------- */
@@ -897,11 +898,12 @@ function render(keep){const app=$('#app');const y=window.scrollY;
   if(ui.tab==='admin'&&!isAdmin()) ui.tab='home';
   app.innerHTML=headerBar(true)+'<main>'+V[ui.tab]()+'</main>'+nav();
   if(ui.tab==='swap') calcSwap(true);
-  window.scrollTo(0,keep?y:0)}
+  window.scrollTo(0,keep?y:0);hxSync();saveUi()}
 
 /* ---------- fenêtres ---------- */
-function openSheet(h){$('#sheet').innerHTML=h+'<button class="s full" style="margin-top:12px" data-act="closeSheet">Fermer</button>';$('#sheetWrap').classList.add('open')}
-function closeSheet(){$('#sheetWrap').classList.remove('open')}
+function openSheet(h){$('#sheet').innerHTML=h+'<button class="s full" style="margin-top:12px" data-act="closeSheet">Fermer</button>';$('#sheetWrap').classList.add('open');
+  const p=ui.pend;ui.lastOpen=(p&&Date.now()-p.t<8000)?p:null;ui.pend=null;hxSync();saveUi()}
+function closeSheet(){$('#sheetWrap').classList.remove('open');hxSync();saveUi()}
 const sheetOpen=()=>$('#sheetWrap').classList.contains('open');
 const opSel=id=>`<label for="${id}">Opérateur</label><select id="${id}">${OPS.map(o=>`<option>${o}</option>`).join('')}</select>`;
 const netSel=(a,net,fn)=>`<label for="f_net">Réseau</label><select id="f_net" onchange="${fn}('${a}',this.value)">${ASSETS[a].nets.map(n=>`<option value="${n[0]}" ${n[0]===net?'selected':''}>${NETS[n[0]].label}</option>`).join('')}</select>`;
@@ -1370,9 +1372,50 @@ async function poll(){
   try{await refresh();if(!busy()){ if(ui.tab==='swap')calcSwap(true); else if(ui.tab!=='admin') render(true)}}catch(e){}}
 
 document.addEventListener('click',e=>{const t=e.target.closest('[data-act]');if(!t)return;
-  if(t.dataset.act==='closeSheet'||!A[t.dataset.act]){closeSheet();return}A[t.dataset.act](t.dataset)});
+  if(t.dataset.act==='closeSheet'||!A[t.dataset.act]){closeSheet();return}
+  if(/^sheet/.test(t.dataset.act))ui.pend={act:t.dataset.act,d:Object.assign({},t.dataset),t:Date.now()};
+  A[t.dataset.act](t.dataset)});
 $('#sheetWrap').addEventListener('click',e=>{if(e.target.id==='sheetWrap')closeSheet()});
 document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.closest('.auth')){const b=document.querySelector('.auth .p');if(b)b.click()}});
+
+/* ---------- bouton Retour du téléphone + reprise là où l'on s'est arrêté ---------- */
+const HX={a:0,inflight:0};
+function hxDepth(){return (ui.tab&&ui.tab!=='home'?1:0)+(sheetOpen()?1:0)}
+function hxSync(){
+  if(HX.inflight>0)return;
+  const d=hxDepth();
+  if(d>HX.a){try{while(HX.a<d){history.pushState({epb:HX.a+1},'');HX.a++}}catch(e){}}
+  else if(d<HX.a){const k=HX.a-d;HX.a=d;HX.inflight=1;try{history.go(-k)}catch(e){HX.inflight=0}
+    setTimeout(()=>{if(HX.inflight){HX.inflight=0;hxSync()}},700)}}
+window.addEventListener('popstate',()=>{
+  if(HX.inflight>0){HX.inflight=0;hxSync();return}
+  if(HX.a>0)HX.a--;
+  if(sheetOpen()){$('#sheetWrap').classList.remove('open')}
+  else if(ui.tab!=='home'){ui.tab='home';render()}
+  hxSync();saveUi()});
+
+const UKEY='epoketrby_state';
+function collectFields(){const o={};document.querySelectorAll('#sheet input,#sheet select,#sheet textarea').forEach(el=>{
+  if(el.id&&el.type!=='password'&&el.type!=='hidden'&&!/pin/i.test(el.id))o[el.id]=el.value});return o}
+function saveUi(){
+  try{LS.set('epoketrby_last',String(Date.now()));
+    if(!SESS||!S.me)return;
+    const open=sheetOpen()&&ui.lastOpen;
+    LS.set(UKEY,JSON.stringify({t:Date.now(),tab:ui.tab,sec:ui.adm&&ui.adm.sec,open:open?{act:ui.lastOpen.act,d:ui.lastOpen.d}:null,f:open?collectFields():{}}))}catch(e){}}
+function restoreUi(){
+  try{const st=JSON.parse(LS.get(UKEY)||'null');
+    if(!st||Date.now()-st.t>30*60*1000||!SESS||!S.me)return;
+    if(st.tab&&st.tab!=='home'&&(st.tab!=='admin'||isAdmin())){ui.tab=st.tab;
+      if(st.tab==='admin'&&st.sec){ui.adm.sec=st.sec;admLoad(st.sec)}else render()}
+    if(st.open&&typeof A[st.open.act]==='function'){
+      setTimeout(async()=>{try{if(sheetOpen())return;await A[st.open.act](st.open.d);
+        for(const id in (st.f||{})){const el=document.getElementById(id);if(el&&el.type!=='password'){el.value=st.f[id];el.dispatchEvent(new Event('input',{bubbles:true}))}}}catch(e){}},400)}
+  }catch(e){}}
+document.addEventListener('input',()=>{clearTimeout(saveUi.t);saveUi.t=setTimeout(saveUi,300)},true);
+document.addEventListener('change',()=>{clearTimeout(saveUi.t);saveUi.t=setTimeout(saveUi,300)},true);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')saveUi()});
+window.addEventListener('pagehide',saveUi);
+setInterval(saveUi,30000);
 
 /* alertes admin : nouvelles demandes (son + vibration + pastille) */
 async function adminCounts(){
@@ -1403,7 +1446,7 @@ if(window.addEventListener){
 async function boot(){
   applyTheme();render();
   if(SESS){
-    try{await refresh();render();adminPoll();}
+    try{await refresh();render();adminPoll();restoreUi();}
     catch(e){
       if(e.code==='net'){document.getElementById('app').innerHTML=headerBar(false)+`<main><div class="card" style="margin-top:20px"><b>Connexion impossible</b><div class="muted" style="margin-top:6px">Vérifiez votre internet puis rechargez la page.</div></div></main>`;}
       else{toast('⚠ '+friendlyErr(e));await doLogout(true)}}
@@ -1555,7 +1598,7 @@ i18nStart();
    À chaque déploiement, un petit fichier version.json change. L'application le consulte régulièrement :
    dès qu'une nouvelle version existe, elle se recharge toute seule quand l'utilisateur revient sur l'app,
    ou affiche le bandeau « Mettre à jour ». Aucun nouveau lien à envoyer : l'adresse du site ne change jamais. */
-const APP_BUILD='2026-11-25-1';
+const APP_BUILD='2026-11-27-1';
 if(location.protocol==='http:'||location.protocol==='https:'){
   let newer=false;
   const showUpd=()=>{const b=document.getElementById('upd');if(b)b.style.display='block'};
