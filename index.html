@@ -296,6 +296,7 @@ I18N_ROWS.push(...[["Détails de retrait","Antsipirian'ny fakana vola","Withdraw
 I18N_ROWS.push(...[["Solde disponible","Solde azo ampiasaina","Available balance"],["Seuil minimum","Fetra farany ambany","Minimum threshold"],["Seuil maximum","Fetra farany ambony","Maximum threshold"],["Commission E-POKETR'BY","Komisiona E-POKETR'BY","E-POKETR'BY commission"],["Frais opérateur (Mobile Money)","Sarany operatera (Mobile Money)","Operator fees (Mobile Money)"],["Montant net reçu","Vola net voaray","Net amount received"],["Plafond sans KYC :","Fetra raha tsy misy KYC :","Limit without KYC:"]]);
 I18N_ROWS.push(...[["Version","Version","Version"]]);
 I18N_ROWS.push(...[["Mes numéros Mobile Money","Ny laharana Mobile Money-ko","My Mobile Money numbers"],["Vérification par SMS","Fanamarinana amin'ny SMS","Verification by SMS"],["Ajouter un numéro","Hanampy laharana","Add a number"],["Ajouter et vérifier","Hanampy sy hamarina","Add and verify"],["Numéro Mobile Money requis","Mila laharana Mobile Money","Mobile Money number required"],["Pour déposer des MGA, ajoutez d'abord un numéro Mobile Money à votre nom. Il sera vérifié avant votre premier dépôt.","Raha hametraka MGA ianao dia ampidiro aloha ny laharana Mobile Money amin'ny anaranao. Hamarinina alohan'ny fametrahana voalohany izany.","To deposit MGA, first add a Mobile Money number in your name. It will be verified before your first deposit."],["Maximum 2 numéros par opérateur. Seul un numéro vérifié peut servir à déposer des MGA.","Laharana 2 raha be indrindra isaky ny operatera. Ny laharana voamarina ihany no azo ampiasaina hametrahana MGA.","Maximum 2 numbers per operator. Only a verified number can be used to deposit MGA."],["Aucun numéro pour le moment.","Mbola tsy misy laharana.","No number yet."],["Vérifié","Voamarina","Verified"],["En attente de vérification","Miandry fanamarinana","Awaiting verification"],["Expiré","Lany daty","Expired"],["Vous allez recevoir un SMS d'E-POKETR'BY sur ce numéro (dans les 24 h). Répondez à ce SMS avec ce code :","Hahazo SMS avy amin'ny E-POKETR'BY amin'io laharana io ianao (ao anatin'ny 24 ora). Valio io SMS io amin'ity kaody ity :","You will receive an SMS from E-POKETR'BY on this number (within 24 h). Reply to that SMS with this code:"],["Copier le code","Adikao ny kaody","Copy the code"],["Ne donnez ce code qu'en réponse à ce SMS.","Aza omena olona io kaody io afa-tsy amin'ny famaliana io SMS io.","Only give this code in reply to that SMS."],["Valable jusqu'au","Manan-kery hatramin'ny","Valid until"],["Supprimer","Fafana","Delete"],["Numéro Mobile Money","Laharana Mobile Money","Mobile Money number"],["Nom inscrit sur ce numéro","Anarana voasoratra amin'io laharana io","Name registered on this number"],["Le numéro doit être à votre nom. Nous lui enverrons un SMS pour vérifier que c'est bien vous (valable 24 h).","Tsy maintsy amin'ny anaranao ny laharana. Handefa SMS any aminy izahay hanamarina fa ianao tokoa (manan-kery 24 ora).","The number must be in your name. We will send it an SMS to check it is really you (valid 24 h)."],["Numéro ajouté","Nanampy laharana","Number added"],["Vérification en cours pour","Eo am-panamarinana ny","Verification in progress for"],["Le nom saisi diffère du nom de votre compte : l'équipe devra le vérifier manuellement.","Tsy mitovy amin'ny anaran'ny kaontinao ny anarana nosoratana: hojerena tanana ny ekipa izany.","The name entered differs from your account name: the team will have to verify it manually."],["Mes numéros","Ny laharanako","My numbers"],["Gérer mes numéros","Hitantana ny laharanako","Manage my numbers"],["Étape 1 · Numéro Mobile Money qui envoie","Dingana 1 · Laharana Mobile Money mandefa","Step 1 · Sending Mobile Money number"],["Étape 2 · Montant (MGA)","Dingana 2 · Vola (MGA)","Step 2 · Amount (MGA)"],["⚠ Numéro invalide pour cet opérateur.","⚠ Tsy mety ny laharana ho an'ity operatera ity.","⚠ Invalid number for this operator."],["Numéro supprimé.","Voafafa ny laharana.","Number deleted."],["Opérateur","Operatera","Operator"]]);
+I18N_ROWS.push(...[["Aucune notification.","Mbola tsy misy notification.","No notifications."],["Réglages des notifications","Fanamboarana ny notification","Notification settings"],["Nouvelle notification","Notification vaovao","New notification"],["nouvelles notifications","notification vaovao","new notifications"]]);
 const I18N = (()=>{ if(LANG==='fr') return null;
   const ix=LANG==='mg'?1:2, ex=new Map(), frag=[];
   I18N_ROWS.forEach(r=>{const k=r[0].trim();ex.set(k,r[ix]);if(k.length>=5)frag.push([k,r[ix]])});
@@ -549,7 +550,7 @@ function filterQ(){ui.qq=val('q_q');const q=ui.qq.toLowerCase();document.querySe
 /* ---------- vues ---------- */
 function headerBar(logged){const dark=document.documentElement.dataset.theme==='dark';
   return `<header><div>${logged?`<button class="ib" data-act="goTab" data-t="account" aria-label="Mon profil et paramètres">${ic('user',34)}${(isAdmin()&&S.admCnt&&S.admCnt.total)?`<span class="notif">${S.admCnt.total}</span>`:''}</button>`:''}</div>
-  <div class="hr"><button class="ib" data-act="toggleTheme" aria-label="${dark?'Passer en mode clair':'Passer en mode sombre'}">${ic(dark?'sun':'moon',28)}</button></div></header>`}
+  <div class="hr">${logged?bellBtn():''}<button class="ib" data-act="toggleTheme" aria-label="${dark?'Passer en mode clair':'Passer en mode sombre'}">${ic(dark?'sun':'moon',28)}</button></div></header>`}
 
 function authView(){const reg=ui.auth==='register';
   return headerBar(false)+`<div class="auth"><div class="brandbig">E-POKETR'BY</div><div class="muted">Échange crypto ↔ Ariary (MGA)</div>
@@ -998,7 +999,7 @@ const A = {
      <div class="note">L'application doit être ouverte depuis son adresse en ligne (https://…), pas depuis un fichier téléchargé. Une fois installée, elle s'ouvre comme une vraie application.</div>`)},
   sheetLang(){openSheet(`<h3>Langue</h3><div class="muted">Choisissez la langue de l'application.</div>
     ${['fr','mg','en'].map((l,i)=>`<button class="${LANG===l?'p':'s'} full" style="margin-top:${i?10:14}px" data-act="setLang" data-l="${l}">${l==='fr'?'<span class="flag" style="vertical-align:middle;margin-right:8px"></span>':''}${LANGS[l]}</button>`).join('')}`)},
-  setLang(d){if(d.l===LANG){closeSheet();return}LS.set('epoketrby_lang',d.l);location.reload()},
+  setLang(d){if(d.l===LANG){closeSheet();return}LS.set('epoketrby_lang',d.l);LS.set('epoketrby_pushsync','');location.reload()},
   setTotCur(d){TOT_CUR=d.c==='USD'?'USD':'MGA';LS.set('epoketrby_totcur',TOT_CUR);render(true)},
   async pinConfirm(){const pin=val('pv_pin');
     if(!/^\d{6}$/.test(pin)) return toast('⚠ Le code PIN doit comporter 6 chiffres.');
@@ -1032,6 +1033,12 @@ const A = {
   admMgaFee(){const n=Number(val('fee_pct').replace(',','.'));
     if(!isFinite(n)||n<0||n>20) return toast('⚠ Pourcentage invalide (entre 0 et 20).');
     run(()=>rpc('admin_set_mga_fee',{p_pct:n}),'Frais de retrait MGA enregistrés.',()=>{S.cfg.mgaFee=n})},
+  async sheetNotifs(){let l=[];
+    try{l=(await rpc('my_notifications',{}))||[]}catch(e){return toast('⚠ '+friendlyErr(e))}
+    const EM={deposit:'💰',withdrawal:'📤',number:'📱',update:'⬆️',admin:'🛎️',info:'📣'};
+    openSheet(`<h3>Notifications</h3>${l.length?l.map(n=>`<div class="card" style="margin-top:8px${n.unread?';border-color:var(--brand)':''}"><div class="row"><b>${EM[n.kind]||'📣'} ${esc(pickL(n.title))}</b><span class="muted" style="font-size:12px;white-space:nowrap">${esc(fdate(n.created_at))}</span></div><div class="muted" style="margin-top:4px">${esc(pickL(n.body))}</div></div>`).join(''):'<div class="muted" style="margin-top:12px">Aucune notification.</div>'}
+      <button class="s full" style="margin-top:14px" data-act="sheetPush">Réglages des notifications</button>`);
+    try{await rpc('notif_mark_seen',{});S.nUnread=0;updateBell()}catch(e){}},
   sheetPush(){const st=pushState(),ios=/iPhone|iPad|iPod/.test(navigator.userAgent);
     openSheet(`<h3>Notifications</h3><div class="muted">Recevez les annonces, les mises à jour et les alertes de maintenance directement sur l'écran de votre téléphone, même quand l'application est fermée.</div>
     ${st==='on'?`<div class="note" style="margin-top:12px">Les notifications sont activées sur ce téléphone.</div><button class="s full" style="margin-top:14px" data-act="pushOff">Désactiver les notifications</button>`
@@ -1424,7 +1431,7 @@ S.cfg=S.cfg||{mgaFee:1.3};
 const pctTxt=x=>String(x).replace('.',',');
 const mgaFeeOf=a=>Math.min(a,Math.ceil(a*(Number(S.cfg.mgaFee)||0)/100));
 async function loadCfg(){try{const r=await rpc('get_mga_fee',{}),n=Number(r);if(isFinite(n)&&n>=0)S.cfg.mgaFee=n}catch(e){}}
-{const _r=refresh;refresh=async function(){const x=await _r.apply(this,arguments);loadCfg();return x}}
+{const _r=refresh;refresh=async function(){const x=await _r.apply(this,arguments);loadCfg();loadUnread();reportUrl();return x}}
 const OPCOL={'MVola':['#FFD100','#111','M'],'Orange Money':['#FF7900','#fff','O'],'Airtel Money':['#E40000','#fff','A']};
 function opBadge(op){const c=OPCOL[op]||['#555','#fff',String(op||'?')[0]];return `<span class="opb" style="background:${c[0]};color:${c[1]}">${esc(c[2])}</span>${esc(op)}`}
 const RIC={ok:'<path d="M7.5 12.5l3 3 6-6.5"/>',wait:'<path d="M12 7v5l3 2"/>',bad:'<path d="M8.5 8.5l7 7M15.5 8.5l-7 7"/>'};
@@ -1484,6 +1491,19 @@ function ussdBlock(r){
    <div class="muted">Montant net envoyé : <b>${fmt('MGA',net)}</b> → ${esc(num)}. Tapez votre code secret MVola puis # pour confirmer.</div>
    <button class="s sm" style="margin-top:8px" data-act="copyText" data-t="${esc(code)}">Copier le code</button></div>`}
 
+/* ---------- centre de notifications (cloche, compteur, vibration) ---------- */
+S.nUnread=S.nUnread||0;
+function bellBtn(){const n=S.nUnread||0;return `<button class="ib" data-act="sheetNotifs" aria-label="Notifications">${ic('bell',28)}<span class="notif" id="bellb" style="${n?'':'display:none'}">${n>9?'9+':n}</span></button>`}
+function updateBell(){const e=document.getElementById('bellb');if(!e)return;const n=S.nUnread||0;e.style.display=n?'':'none';e.textContent=n>9?'9+':String(n)}
+function vib(p){try{if(navigator.vibrate)navigator.vibrate(p)}catch(e){}}
+function pickL(t){return t&&typeof t==='object'?(t[LANG]||t.fr||''):String(t||'')}
+async function loadUnread(){
+  if(!SESS||!S.me)return;
+  try{const n=Number(await rpc('notif_unread',{}));if(!isFinite(n))return;
+    if(S.nInit&&n>S.nUnread){vib([200,100,200]);if(!sheetOpen())toast('🔔 '+(n-S.nUnread>1?(n-S.nUnread)+' nouvelles notifications':'Nouvelle notification'))}
+    S.nUnread=n;S.nInit=true;updateBell()}catch(e){}}
+async function reportUrl(){try{if(!isAdmin()||ui.urlSent)return;await rpc('admin_set_app_url',{p_url:new URL('.',location.href).href.replace(/\/$/,'')});ui.urlSent=1}catch(e){}}
+
 /* ---------- code PIN : confirmation des paiements ---------- */
 function pinWeak(p){return /^(\d)\1{5}$/.test(p)||['123456','234567','345678','456789','654321','987654','012345','123123','112233'].includes(p)}
 function askPin(sum,onOk){ui.pinOk=onOk;
@@ -1535,17 +1555,20 @@ i18nStart();
    À chaque déploiement, un petit fichier version.json change. L'application le consulte régulièrement :
    dès qu'une nouvelle version existe, elle se recharge toute seule quand l'utilisateur revient sur l'app,
    ou affiche le bandeau « Mettre à jour ». Aucun nouveau lien à envoyer : l'adresse du site ne change jamais. */
-const APP_BUILD='2026-11-24-4';
+const APP_BUILD='2026-11-25-1';
 if(location.protocol==='http:'||location.protocol==='https:'){
   let newer=false;
   const showUpd=()=>{const b=document.getElementById('upd');if(b)b.style.display='block'};
   async function checkVersion(){
     try{const r=await fetch('version.json?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();
-      if(j&&j.build&&j.build!==APP_BUILD){newer=true;showUpd()}}catch(e){}}
+      if(j&&j.build&&j.build!==APP_BUILD){if(!newer)vib([150,80,150]);newer=true;showUpd()}}catch(e){}}
   document.addEventListener('visibilitychange',()=>{
     if(document.hidden)return;
     checkVersion().then(()=>{ if(newer&&!sheetOpen()&&!ui.lock){const a=document.activeElement;if(!(a&&a.matches&&a.matches('input,select,textarea')))location.reload()} })});
   setInterval(checkVersion,60000);setTimeout(checkVersion,5000);
+  setInterval(loadUnread,45000);
+  if('serviceWorker' in navigator)navigator.serviceWorker.addEventListener('message',e=>{if(e.data&&e.data.type==='notif'&&SESS)A.sheetNotifs()});
+  if(location.hash==='#notif'){history.replaceState(null,'',location.pathname+location.search);const tk=setInterval(()=>{if(SESS&&S.me){clearInterval(tk);A.sheetNotifs()}},800);setTimeout(()=>clearInterval(tk),15000)}
   if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').then(()=>{setTimeout(pushSync,4000);setInterval(pushSync,600000)}).catch(()=>{})}
 }
 </script>
