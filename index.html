@@ -730,7 +730,11 @@ async function admLoad(sec){ui.adm.sec=sec;ui.adm.err='';ui.adm.rows=[];ui.adm.u
     else if(sec==='set'){
       ui.adm.wallets=await sel('platform_wallets?select=asset,network,address&order=asset.asc')||[];
       ui.adm.pool=await sel('address_pool?select=network,assigned_to&limit=2000')||[]}
-    else if(sec==='bil'){ui.adm.ord=null;ui.adm.ordErr='';try{ui.adm.ord=await rpc('admin_orders_bilan',{})}catch(e){ui.adm.ordErr=friendlyErr(e)}ui.adm.bil={bal:await sel('balances?select=asset,amount&limit=5000')||[],sw:await sel('swaps?select=from_asset,from_amount,price_mga,fee_rate&limit=2000')||[],wd:await sel('withdrawals?select=asset,fee,amount,status&status=eq.sent&limit=2000')||[]}}
+    else if(sec==='bil'){ui.adm.ord=null;ui.adm.ordErr='';try{ui.adm.ord=await rpc('admin_orders_bilan',{})}catch(e){ui.adm.ordErr=friendlyErr(e)}
+      let since=null;try{since=await rpc('admin_bilan_since',{})}catch(e){}
+      ui.adm.since=(since&&new Date(since).getFullYear()>2001)?since:null;
+      const f=ui.adm.since?'&created_at=gte.'+encodeURIComponent(ui.adm.since):'';
+      ui.adm.bil={bal:await sel('balances?select=asset,amount&limit=5000')||[],sw:await sel('swaps?select=from_asset,from_amount,price_mga,fee_rate&limit=2000'+f)||[],wd:await sel('withdrawals?select=asset,fee,amount,status&status=eq.sent&limit=2000'+f)||[]}}
   }catch(e){ui.adm.err=friendlyErr(e)}
   render(true)}
 function admView(){
@@ -831,6 +835,8 @@ function admView(){
      <div class="grid2"><div><label for="n_fee">Frais de retrait</label><input id="n_fee" inputmode="decimal" value="0"></div><div><label for="n_min">Retrait minimum</label><input id="n_min" inputmode="decimal" value="0"></div></div>
      <button class="p full" style="margin-top:12px" data-act="admAddNet">Ajouter le réseau</button></div>`}
   if(a.sec==='bil') body+=ordHTML(a);
+  if(a.sec==='bil') body+=`<div class="card"><b>Remise à zéro du bilan</b><div class="note">${a.since?'Le bilan est calculé depuis le '+esc(fdate(a.since))+'.':'Le bilan inclut toutes les opérations depuis le début.'} La remise à zéro repart de zéro pour les commandes, les revenus et le classement. Les historiques et les soldes des clients ne sont pas supprimés.</div>
+     <button class="d full" style="margin-top:10px" data-act="admBilanReset">Réinitialiser le bilan</button></div>`;
   if(a.sec==='bil'){const b=a.bil;
     if(!b) body+='<div class="card muted">Chargement…</div>';
     else{const liab={},fees={};let marge=0;
@@ -866,7 +872,8 @@ function admView(){
      <div class="note">Un même txid ne peut être crédité qu'une fois.</div></div>`;
   if(a.sec==='px') body+=admPrices();
   if(a.sec==='cli') body+=(a.rows.length?a.rows.map(r=>`<div class="card"><div class="row"><div><b>${esc(r.name)}</b>${r.role==='admin'?' <span class="badge">admin</span>':''}<div class="muted num">${esc(r.phone)} · memo ${esc(r.memo_id)}</div></div>
-     <button class="${r.kyc_level>0?'s':'p'} sm" data-act="admKyc" data-id="${r.id}" data-l="${r.kyc_level>0?0:1}">${r.kyc_level>0?'KYC ✓ (retirer)':'Valider KYC'}</button></div></div>`).join(''):'<div class="card muted">Aucun client.</div>');
+     ${r.role==='admin'?'':`<button class="s sm" data-act="admSelCli" data-id="${r.id}" aria-label="Sélectionner">${(a.sel||{})[r.id]?'☑':'☐'}</button>`}
+     <button class="${r.kyc_level>0?'s':'p'} sm" data-act="admKyc" data-id="${r.id}" data-l="${r.kyc_level>0?0:1}">${r.kyc_level>0?'KYC ✓ (retirer)':'Valider KYC'}</button></div></div>`).join(''):'<div class="card muted">Aucun client.</div>')+delBar(a);
   return `<h2 style="margin-top:14px">Administration</h2>
    <div class="admseg">${ADM.map(x=>{const n=S.admCnt&&S.admCnt[x[0]];return `<button class="${a.sec===x[0]?'on':''}" data-act="admSec" data-s="${x[0]}">${x[1]}${n?' ('+n+')':''}</button>`}).join('')}</div>${body}`}
 function admPrices(){
@@ -1041,6 +1048,31 @@ const A = {
     openSheet(`<h3>Notifications</h3>${l.length?l.map(n=>`<div class="card" style="margin-top:8px${n.unread?';border-color:var(--brand)':''}"><div class="row"><b>${EM[n.kind]||'📣'} ${esc(pickL(n.title))}</b><span class="muted" style="font-size:12px;white-space:nowrap">${esc(fdate(n.created_at))}</span></div><div class="muted" style="margin-top:4px">${esc(pickL(n.body))}</div></div>`).join(''):'<div class="muted" style="margin-top:12px">Aucune notification.</div>'}
       <button class="s full" style="margin-top:14px" data-act="sheetPush">Réglages des notifications</button>`);
     try{await rpc('notif_mark_seen',{});S.nUnread=0;updateBell()}catch(e){}},
+  admBilanReset(){openSheet(`<h3>Réinitialiser le bilan</h3>
+    <div class="warn">Le bilan (commandes, revenus, classement) repart de zéro à partir de maintenant. Les historiques et les soldes des clients ne sont pas touchés.</div>
+    <label for="br_pin">Votre code PIN</label><input id="br_pin" type="password" inputmode="numeric" maxlength="6" autocomplete="off">
+    <button class="d full" style="margin-top:14px" data-act="doBilanReset">Confirmer la remise à zéro</button>`)},
+  async doBilanReset(){const pin=val('br_pin');
+    if(!/^\d{6}$/.test(pin)) return toast('⚠ Le code PIN doit comporter 6 chiffres.');
+    let r;try{r=await rpc('admin_reset_bilan',{p_pin:pin})}catch(e){return toast('⚠ '+friendlyErr(e))}
+    if(r!=='ok') return toast('⚠ Code PIN incorrect.');
+    closeSheet();toast('Bilan remis à zéro.');admLoad('bil')},
+  admSelCli(d){const s=ui.adm.sel=ui.adm.sel||{};s[d.id]=!s[d.id];render(true)},
+  admSelClear(){ui.adm.sel={};render(true)},
+  admDelOpen(){const ids=Object.keys(ui.adm.sel||{}).filter(k=>ui.adm.sel[k]);if(!ids.length)return;
+    openSheet(`<h3>Supprimer ${ids.length} compte(s) client</h3>
+    <div class="warn">Suppression TOTALE et définitive : compte, soldes, historique, numéros Mobile Money et adresses. Le numéro de téléphone pourra être réutilisé pour créer un compte tout neuf. Action irréversible.</div>
+    <label style="display:flex;gap:10px;align-items:center;margin-top:12px"><input type="checkbox" id="dl_force" style="width:auto;min-height:0"> Supprimer même si le solde n'est pas nul (comptes de test)</label>
+    <label for="dl_txt">Tapez SUPPRIMER pour confirmer</label><input id="dl_txt" autocomplete="off">
+    <label for="dl_pin">Votre code PIN</label><input id="dl_pin" type="password" inputmode="numeric" maxlength="6" autocomplete="off">
+    <button class="d full" style="margin-top:14px" data-act="doAdmDel">Supprimer définitivement</button>`)},
+  async doAdmDel(){const ids=Object.keys(ui.adm.sel||{}).filter(k=>ui.adm.sel[k]),pin=val('dl_pin'),fe=document.getElementById('dl_force');
+    if(val('dl_txt').toUpperCase()!=='SUPPRIMER') return toast('⚠ Tapez SUPPRIMER pour confirmer.');
+    if(!/^\d{6}$/.test(pin)) return toast('⚠ Le code PIN doit comporter 6 chiffres.');
+    let r;try{r=await rpc('admin_delete_users',{p_ids:ids,p_pin:pin,p_force:!!(fe&&fe.checked)})}catch(e){return toast('⚠ '+friendlyErr(e))}
+    if(!r||r.status==='pin') return toast('⚠ Code PIN incorrect.');
+    ui.adm.sel={};closeSheet();const sk=(r.skipped||[]).length;
+    toast((r.deleted||0)+' compte(s) supprimé(s)'+(sk?' · '+sk+' ignoré(s) (solde non nul, admin ou erreur)':''));admLoad('cli')},
   sheetPush(){const st=pushState(),ios=/iPhone|iPad|iPod/.test(navigator.userAgent);
     openSheet(`<h3>Notifications</h3><div class="muted">Recevez les annonces, les mises à jour et les alertes de maintenance directement sur l'écran de votre téléphone, même quand l'application est fermée.</div>
     ${st==='on'?`<div class="note" style="margin-top:12px">Les notifications sont activées sur ce téléphone.</div><button class="s full" style="margin-top:14px" data-act="pushOff">Désactiver les notifications</button>`
@@ -1547,6 +1579,9 @@ async function loadUnread(){
     S.nUnread=n;S.nInit=true;updateBell()}catch(e){}}
 async function reportUrl(){try{if(!isAdmin()||ui.urlSent)return;await rpc('admin_set_app_url',{p_url:new URL('.',location.href).href.replace(/\/$/,'')});ui.urlSent=1}catch(e){}}
 
+function delBar(a){const n=Object.keys(a.sel||{}).filter(k=>a.sel[k]).length;
+  return n?`<div class="card" style="position:sticky;bottom:78px"><button class="d full" data-act="admDelOpen">Supprimer la sélection (${n})</button><button class="s full sm" style="margin-top:8px" data-act="admSelClear">Tout désélectionner</button></div>`:''}
+
 /* ---------- code PIN : confirmation des paiements ---------- */
 function pinWeak(p){return /^(\d)\1{5}$/.test(p)||['123456','234567','345678','456789','654321','987654','012345','123123','112233'].includes(p)}
 function askPin(sum,onOk){ui.pinOk=onOk;
@@ -1598,7 +1633,7 @@ i18nStart();
    À chaque déploiement, un petit fichier version.json change. L'application le consulte régulièrement :
    dès qu'une nouvelle version existe, elle se recharge toute seule quand l'utilisateur revient sur l'app,
    ou affiche le bandeau « Mettre à jour ». Aucun nouveau lien à envoyer : l'adresse du site ne change jamais. */
-const APP_BUILD='2026-11-27-1';
+const APP_BUILD='2026-11-27-2';
 if(location.protocol==='http:'||location.protocol==='https:'){
   let newer=false;
   const showUpd=()=>{const b=document.getElementById('upd');if(b)b.style.display='block'};
